@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, Image,
   TextInput, Modal,
@@ -10,7 +10,7 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/Button';
 import { StatusBadge } from '@/components/StatusBadge';
 import { Colors, Spacing, FontSizes, BorderRadii, Shadows } from '@/constants/theme';
-import { Mail, MapPin, ExternalLink, Edit2, Check, X, Camera } from 'lucide-react-native';
+import { Mail, MapPin, ExternalLink, Edit2, Check, X, Camera, BadgeCheck, ShieldAlert, Info } from 'lucide-react-native';
 
 export default function TrainerProfile() {
   const { profile, refreshProfile, signOut } = useAuth();
@@ -21,6 +21,17 @@ export default function TrainerProfile() {
   const [saving, setSaving] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [isVerified, setIsVerified] = useState(false);
+
+  useEffect(() => {
+    if (!profile) return;
+    supabase
+      .from('trainers')
+      .select('is_verified')
+      .eq('id', profile.id)
+      .maybeSingle()
+      .then(({ data }) => { if (data) setIsVerified(data.is_verified ?? false); });
+  }, [profile?.id]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -139,6 +150,53 @@ export default function TrainerProfile() {
               </View>
             ) : null}
           </View>
+        </View>
+
+        {/* Verification status */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Verificacao</Text>
+          {isVerified ? (
+            <View style={[styles.verifyCard, styles.verifyCardActive]}>
+              <View style={styles.verifyIconWrap}>
+                <BadgeCheck size={22} color={Colors.secondary[600]} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.verifyTitle}>Perfil verificado</Text>
+                <Text style={styles.verifyDesc}>
+                  Seu perfil possui o selo de verificado. Ele aparece com destaque para os alunos.
+                </Text>
+              </View>
+            </View>
+          ) : (
+            <View style={[styles.verifyCard, styles.verifyCardPending]}>
+              <View style={[styles.verifyIconWrap, { backgroundColor: Colors.warning[50] }]}>
+                <ShieldAlert size={22} color={Colors.warning[600]} />
+              </View>
+              <View style={{ flex: 1, gap: 6 }}>
+                <Text style={[styles.verifyTitle, { color: Colors.neutral[800] }]}>Ainda nao verificado</Text>
+                <Text style={styles.verifyDesc}>
+                  A verificacao e feita manualmente pela equipe. Para solicitar, garanta que seu perfil esteja completo com CREF, foto e bio, e entre em contato pelo suporte.
+                </Text>
+                <View style={styles.verifySteps}>
+                  {['Preencha o CREF no perfil profissional', 'Adicione foto de perfil', 'Entre em contato com o suporte'].map((step, i) => (
+                    <View key={i} style={styles.verifyStep}>
+                      <View style={styles.verifyStepNum}>
+                        <Text style={styles.verifyStepNumText}>{i + 1}</Text>
+                      </View>
+                      <Text style={styles.verifyStepText}>{step}</Text>
+                    </View>
+                  ))}
+                </View>
+                <TouchableOpacity
+                  style={styles.verifyBtn}
+                  onPress={() => router.push('/trainer/onboarding')}
+                >
+                  <Edit2 size={13} color={Colors.primary[600]} />
+                  <Text style={styles.verifyBtnText}>Completar perfil profissional</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
         </View>
 
         {/* Actions */}
@@ -285,6 +343,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center', ...Shadows.xs,
   },
   editFullBtnText: { fontSize: FontSizes.md, fontWeight: '600', color: Colors.neutral[700] },
+
+  // Verification
+  verifyCard: {
+    flexDirection: 'row', alignItems: 'flex-start', gap: 12,
+    borderRadius: 16, padding: Spacing.md, borderWidth: 1.5,
+  },
+  verifyCardActive: { backgroundColor: Colors.secondary[50], borderColor: Colors.secondary[200] },
+  verifyCardPending: { backgroundColor: Colors.neutral[50], borderColor: Colors.neutral[200] },
+  verifyIconWrap: {
+    width: 44, height: 44, borderRadius: 14,
+    backgroundColor: Colors.secondary[100], alignItems: 'center', justifyContent: 'center',
+    flexShrink: 0,
+  },
+  verifyTitle: { fontSize: FontSizes.md, fontWeight: '700', color: Colors.secondary[700] },
+  verifyDesc: { fontSize: FontSizes.sm, color: Colors.neutral[600], lineHeight: 20 },
+  verifySteps: { gap: 8, marginTop: 4 },
+  verifyStep: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
+  verifyStepNum: {
+    width: 20, height: 20, borderRadius: 10,
+    backgroundColor: Colors.primary[100], alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+  },
+  verifyStepNumText: { fontSize: 10, fontWeight: '800', color: Colors.primary[700] },
+  verifyStepText: { fontSize: FontSizes.sm, color: Colors.neutral[700], flex: 1, lineHeight: 18 },
+  verifyBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 6,
+    backgroundColor: Colors.primary[50], borderRadius: 10,
+    paddingHorizontal: 12, paddingVertical: 8, alignSelf: 'flex-start',
+    borderWidth: 1, borderColor: Colors.primary[100],
+  },
+  verifyBtnText: { fontSize: FontSizes.sm, fontWeight: '700', color: Colors.primary[600] },
+
   // Modal
   modalBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
   modalCard: {

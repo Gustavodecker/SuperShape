@@ -79,7 +79,7 @@ export default function TrainerDashboard() {
   const loadData = async () => {
     if (!profile) return;
     const [trainerRes, leadsRes, viewsRes, aptRes, subRes] = await Promise.all([
-      supabase.from('trainers').select('status, rating, review_count, subscription_plan').eq('id', profile.id).maybeSingle(),
+      supabase.from('trainers').select('status, rating, review_count, subscription_plan, trial_ends_at, subscription_status').eq('id', profile.id).maybeSingle(),
       supabase.from('leads').select('*, student:profiles!leads_student_id_fkey(*)').eq('trainer_id', profile.id).order('created_at', { ascending: false }).limit(10),
       supabase.from('profile_views').select('id', { count: 'exact', head: true }).eq('trainer_id', profile.id),
       supabase.from('appointments').select('*, student:profiles!appointments_student_id_fkey(*)').eq('trainer_id', profile.id).gte('appointment_date', new Date().toISOString().split('T')[0]).in('status', ['requested', 'confirmed']).order('appointment_date').order('start_time').limit(5),
@@ -95,6 +95,10 @@ export default function TrainerDashboard() {
         viewCount:   viewsRes.count ?? 0,
         leadCount:   leadsRes.data?.length ?? 0,
       });
+      // Use trial_ends_at from trainers table as fallback
+      if (trainerRes.data.subscription_status !== 'active' && trainerRes.data.trial_ends_at) {
+        setTrialEnd(trainerRes.data.trial_ends_at);
+      }
     }
     if (subRes.data) {
       if (subRes.data.plan) setSubscriptionPlan(subRes.data.plan as PlanId);
@@ -176,14 +180,26 @@ export default function TrainerDashboard() {
 
           {/* Trial countdown */}
           {trialDaysLeft !== null && (
-            <View style={s.trialBanner}>
-              <Clock size={13} color={Colors.warning[600]} />
-              <Text style={s.trialText}>
-                {trialDaysLeft > 0
-                  ? `${trialDaysLeft} dia${trialDaysLeft !== 1 ? 's' : ''} restantes no período de teste`
-                  : 'Período de teste encerrado'}
-              </Text>
-            </View>
+            <TouchableOpacity
+              style={[s.trialBanner, trialDaysLeft <= 3 && { backgroundColor: Colors.error[50] }]}
+              onPress={() => router.push('/trainer/(app)/assinatura')}
+              activeOpacity={0.85}
+            >
+              <Clock size={13} color={trialDaysLeft <= 3 ? Colors.error[600] : Colors.warning[600]} />
+              <View style={{ flex: 1 }}>
+                <Text style={[s.trialText, trialDaysLeft <= 3 && { color: Colors.error[700] }]}>
+                  {trialDaysLeft > 0
+                    ? `Teste gratuito: ${trialDaysLeft} dia${trialDaysLeft !== 1 ? 's' : ''} restantes`
+                    : 'Periodo de teste encerrado — assine para continuar'}
+                </Text>
+                {trialEnd && trialDaysLeft > 0 && (
+                  <Text style={s.trialSubText}>
+                    Vence em {new Date(trialEnd).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                  </Text>
+                )}
+              </View>
+              <ChevronRight size={14} color={trialDaysLeft <= 3 ? Colors.error[600] : Colors.warning[600]} />
+            </TouchableOpacity>
           )}
         </LinearGradient>
 
@@ -413,9 +429,10 @@ const s = StyleSheet.create({
   heroStatusBadgeText: { fontSize: FontSizes.xs, fontWeight: '700' },
   trialBanner: {
     flexDirection: 'row', alignItems: 'center', gap: 7,
-    backgroundColor: Colors.warning[50], borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8,
+    backgroundColor: Colors.warning[50], borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10,
   },
-  trialText: { fontSize: FontSizes.sm, color: Colors.warning[700], fontWeight: '600', flex: 1 },
+  trialText: { fontSize: FontSizes.sm, color: Colors.warning[700], fontWeight: '700' },
+  trialSubText: { fontSize: FontSizes.xs, color: Colors.warning[600], marginTop: 2, fontWeight: '500' },
 
   planBanner: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
