@@ -147,7 +147,7 @@ export default function PublicSearch() {
               <Text style={s.loginBtnText}>Entrar</Text>
             </TouchableOpacity>
           </View>
-          <Text style={s.headerSub}>+500 profissionais certificados</Text>
+          <Text style={s.headerSub}>Encontre o personal ideal para voce</Text>
 
           {/* Search bar */}
           <View style={[s.searchBox, focused && s.searchBoxFocused]}>

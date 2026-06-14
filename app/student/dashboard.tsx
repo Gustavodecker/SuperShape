@@ -28,7 +28,7 @@ const CATEGORIES = [
   { id: 'hipertrofia',   label: 'Hipertrofia',   photo: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400&h=240&fit=crop', color: Colors.primary[600] },
   { id: 'online',        label: 'Online',         photo: 'https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=400&h=240&fit=crop', color: Colors.secondary[600] },
   { id: 'corrida',       label: 'Corrida',        photo: 'https://images.pexels.com/photos/2402777/pexels-photo-2402777.jpeg?auto=compress&cs=tinysrgb&w=400&h=240&fit=crop', color: '#F97316' },
-  { id: 'terceira-idade', label: 'Terceira Idade', photo: 'https://images.pexels.com/photos/3076516/pexels-photo-3076516.jpeg?auto=compress&cs=tinysrgb&w=400&h=240&fit=crop', color: '#8B5CF6' },
+  { id: 'terceira-idade', label: 'Terceira Idade', photo: 'https://images.pexels.com/photos/3823488/pexels-photo-3823488.jpeg?auto=compress&cs=tinysrgb&w=400&h=240&fit=crop', color: '#8B5CF6' },
   { id: 'pos-parto',     label: 'Pós-parto',      photo: 'https://images.pexels.com/photos/4056529/pexels-photo-4056529.jpeg?auto=compress&cs=tinysrgb&w=400&h=240&fit=crop', color: '#EC4899' },
 ];
 

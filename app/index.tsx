@@ -32,7 +32,7 @@ const CATEGORIES = [
   { id: 'hipertrofia', label: 'Hipertrofia', photo: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400&h=340&fit=crop' },
   { id: 'online', label: 'Treino Online', photo: 'https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=400&h=340&fit=crop' },
   { id: 'corrida', label: 'Corrida', photo: 'https://images.pexels.com/photos/2402777/pexels-photo-2402777.jpeg?auto=compress&cs=tinysrgb&w=400&h=340&fit=crop' },
-  { id: 'terceira-idade', label: 'Terceira Idade', photo: 'https://images.pexels.com/photos/3076516/pexels-photo-3076516.jpeg?auto=compress&cs=tinysrgb&w=400&h=340&fit=crop' },
+  { id: 'terceira-idade', label: 'Terceira Idade', photo: 'https://images.pexels.com/photos/3823488/pexels-photo-3823488.jpeg?auto=compress&cs=tinysrgb&w=400&h=340&fit=crop' },
   { id: 'pos-parto', label: 'Pós-parto', photo: 'https://images.pexels.com/photos/4056529/pexels-photo-4056529.jpeg?auto=compress&cs=tinysrgb&w=400&h=340&fit=crop' },
   { id: 'condicionamento', label: 'Condicionamento', photo: 'https://images.pexels.com/photos/416809/pexels-photo-416809.jpeg?auto=compress&cs=tinysrgb&w=400&h=340&fit=crop' },
   { id: 'treino-casa', label: 'Treino em Casa', photo: 'https://images.pexels.com/photos/4162487/pexels-photo-4162487.jpeg?auto=compress&cs=tinysrgb&w=400&h=340&fit=crop' },
@@ -284,7 +284,7 @@ const MobileWelcome: React.FC = () => {
               <View style={ww.starsRow}>
                 {[0,1,2,3,4].map(i => <Star key={i} size={11} color="#F59E0B" fill="#F59E0B" />)}
               </View>
-              <Text style={ww.proofText}>+500 profissionais verificados</Text>
+              <Text style={ww.proofText}>Plataforma em crescimento</Text>
             </View>
           </View>
         </View>
