@@ -40,7 +40,7 @@ export default function LoginScreen() {
             <View style={styles.logoWrap}>
               <Dumbbell size={36} color={Colors.white} />
             </View>
-            <Text style={styles.brand}>PersonalMatch</Text>
+            <Text style={styles.brand}>SuperShape</Text>
             <Text style={styles.tagline}>Conecte-se ao personal certo</Text>
           </View>
 

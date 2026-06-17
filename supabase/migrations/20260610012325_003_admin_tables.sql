@@ -59,7 +59,7 @@ CREATE POLICY "own_redemptions" ON voucher_redemptions FOR SELECT
 -- App settings (singleton)
 CREATE TABLE IF NOT EXISTS app_settings (
   id integer PRIMARY KEY DEFAULT 1,
-  marketplace_name text NOT NULL DEFAULT 'PersonalMatch',
+  marketplace_name text NOT NULL DEFAULT 'SuperShape',
   primary_color text NOT NULL DEFAULT '#2D4EDE',
   support_whatsapp text,
   support_email text,

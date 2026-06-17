@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "PersonalMatch",
-    "slug": "personal-match",
+    "name": "SuperShape",
+    "slug": "supershape",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "personalmatch",
+    "scheme": "supershape",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gustavomiguel.personalmatch"
+      "bundleIdentifier": "com.gustavomiguel.supershape"
     },
     "android": {
-      "package": "com.gustavomiguel.personalmatch"
+      "package": "com.gustavomiguel.supershape"
     },
     "web": {
       "bundler": "metro",

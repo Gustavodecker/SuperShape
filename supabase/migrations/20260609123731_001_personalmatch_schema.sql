@@ -1,5 +1,5 @@
 /*
-# PersonalMatch — Schema completo v2
+# SuperShape — Schema completo v2
 
 ## Tabelas
 - profiles      → extensão de auth.users (role: student | trainer | admin)

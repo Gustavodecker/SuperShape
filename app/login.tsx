@@ -49,7 +49,7 @@ export default function LoginScreen() {
             <View style={styles.logoIcon}>
               <Dumbbell size={28} color="#ffffff" />
             </View>
-            <Text style={styles.brand}>PersonalMatch</Text>
+            <Text style={styles.brand}>SuperShape</Text>
           </View>
 
           <View style={styles.header}>

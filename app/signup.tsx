@@ -63,7 +63,7 @@ export default function SignupScreen() {
             </TouchableOpacity>
             <View style={styles.logoRow}>
               <Dumbbell size={20} color={Colors.white} />
-              <Text style={styles.brand}>PersonalMatch</Text>
+              <Text style={styles.brand}>SuperShape</Text>
             </View>
             <View style={{ width: 38 }} />
           </View>
