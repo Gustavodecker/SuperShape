@@ -10,10 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gustavomiguel.supershape"
+      "bundleIdentifier": "com.supershape"
     },
     "android": {
-      "package": "com.gustavomiguel.supershape"
+      "package": "com.supershape"
     },
     "web": {
       "bundler": "metro",
